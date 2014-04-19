@@ -15,6 +15,7 @@ from managers import VoteManager, SimilarUserManager
 class Vote(models.Model):
     content_type    = models.ForeignKey(ContentType, related_name="votes")
     object_id       = models.PositiveIntegerField()
+    top_ancestor_id = models.PositiveIntegerField(null=True, blank=True)
     key             = models.CharField(max_length=32)
     score           = models.IntegerField()
     user            = models.ForeignKey(User, blank=True, null=True, related_name="votes")
@@ -52,10 +53,11 @@ class Vote(models.Model):
 class Score(models.Model):
     content_type    = models.ForeignKey(ContentType)
     object_id       = models.PositiveIntegerField()
+    top_ancestor_id = models.PositiveIntegerField(null=True, blank=True)
     key             = models.CharField(max_length=32)
     score           = models.IntegerField()
     votes           = models.PositiveIntegerField()
-    
+
     content_object  = generic.GenericForeignKey()
 
     class Meta:
@@ -70,9 +72,9 @@ class SimilarUser(models.Model):
     agrees          = models.PositiveIntegerField(default=0)
     disagrees       = models.PositiveIntegerField(default=0)
     exclude         = models.BooleanField(default=False)
-    
+
     objects         = SimilarUserManager()
-    
+
     class Meta:
         unique_together = (('from_user', 'to_user'),)
 
@@ -83,11 +85,11 @@ class IgnoredObject(models.Model):
     user            = models.ForeignKey(User)
     content_type    = models.ForeignKey(ContentType)
     object_id       = models.PositiveIntegerField()
-    
+
     content_object  = generic.GenericForeignKey()
-    
+
     class Meta:
         unique_together = (('content_type', 'object_id'),)
-    
+
     def __unicode__(self):
         return self.content_object
