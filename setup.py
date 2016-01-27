@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from setuptools import setup, find_packages
 
 tests_require = [
@@ -9,7 +7,7 @@ tests_require = [
 
 setup(
     name='django-ratings',
-    version=".".join(map(str, __import__('djangoratings').__version__)),
+    version = '0.3.8-GHD',
     author='David Cramer',
     author_email='dcramer@gmail.com',
     description='Generic Ratings in Django',
